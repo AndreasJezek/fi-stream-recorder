@@ -102,7 +102,9 @@ def run_stream_recorder(arguments: dict[str, str]):
 
 
 def main():
+    os.makedirs(MAPPED_VOLUME, exist_ok=True)
     build_recorder()
+
     print("🎥 FI MUNI Stream Recorder")
     print("=" * 40)
 
