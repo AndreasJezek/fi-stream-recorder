@@ -20,7 +20,6 @@ PROMPTS = {
     "START_TIME": "🕐 Start (YYYY-MM-DD-HH-MM) (Brno time zone)\n(Starts immediately if nothing provided): ",
 }
 DOCKER_IMAGE_NAME = "sjdjsifh/stream-recorder:latest"
-# DOCKER_IMAGE_NAME = 'stream-recorder'
 
 
 def get_current_prague_time():
