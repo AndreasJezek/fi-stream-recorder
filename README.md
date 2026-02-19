@@ -107,6 +107,7 @@ You can also paste your own valid classroom stream URL.
 ## 📥 Install dependencies
 
 ```bash
+sudo apt install ffmpeg
 pip install -r requirements.txt
 playwright install --with-deps chromium
 ```
