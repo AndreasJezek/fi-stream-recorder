@@ -41,11 +41,25 @@ This is the easiest and safest way to use the recorder.
 
 ## ▶️ Run the interactive runner
 
+### Option 1: Execute `record.py` using python3 directly.
+
 ```bash
 python3 record.py
 ```
 
-The script will:
+### Option 2: Make `record.py` executable and execute it directly.
+
+Make `record.py` executable:
+   ```bash
+   chmod +x record.py
+   ```
+Execute `record.py` directly:
+   ```
+   ./record.py
+   ```
+---
+
+### The script will:
 
 1. Pull the Docker image:
    ```
