@@ -90,7 +90,7 @@ def get_arguments():
 
 
 def run_stream_recorder(arguments: dict[str, str]):
-    cmd = ["docker", "run", "-v", f"{MAPPED_VOLUME}:/workspace", DOCKER_IMAGE_NAME] + [
+    cmd = ["docker", "run", "--rm", "-v", f"{MAPPED_VOLUME}:/workspace", DOCKER_IMAGE_NAME] + [
         arguments["name"],
         arguments["url"],
         arguments["recording_seconds"],

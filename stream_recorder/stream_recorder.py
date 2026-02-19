@@ -56,17 +56,17 @@ class StreamRecorder:
         if time_to_sleep > 0:
             time.sleep(time_to_sleep)
 
-    def handle_route(self, route: Route):
+    def __handle_route(self, route: Route):
         if "m3u8" in route.request.url:
             self.m3u8_url = route.request.url
         route.continue_()
 
-    def extract_m3u8(self):
+    def __extract_m3u8(self):
         logger.info("Opening browser...")
         with sync_playwright() as p:
             browser: Browser = p.chromium.launch(headless=True)
             page: Page = browser.new_page()
-            page.route("**/*", self.handle_route)
+            page.route("**/*", self.__handle_route)
             page.goto(self.site_url)
             page.click('button[title="Play Video"]')
             logger.info("Waiting for the stream to start...")
@@ -74,7 +74,14 @@ class StreamRecorder:
             browser.close()
 
     def record(self):
-        self.extract_m3u8()
+        """Main recording method.
+
+        First uses playwright in extract_m3u8 to obtain stream link.
+        Then blocks and records for the given time to store the stream.
+        Lastly makes sure the stream recording is flushed and stored using os.sync().
+        """
+
+        self.__extract_m3u8()
         if not self.m3u8_url:
             return
 

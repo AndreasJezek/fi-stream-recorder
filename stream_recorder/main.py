@@ -3,6 +3,7 @@ import argparse
 from argparse import Namespace
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
+from loguru import logger
 
 
 def build_stream_recorder(arguments: Namespace) -> StreamRecorder | None:
@@ -23,8 +24,8 @@ def build_stream_recorder(arguments: Namespace) -> StreamRecorder | None:
         start_time = prague_time.astimezone(ZoneInfo("UTC"))
 
     except ValueError:
-        print(
-            "Invalid start time date format.\n"
+        logger.error(
+            "Invalid start time date format."
             "Expected (YYYY-MM-DD-HH-MM, e.g. 2026-02-18-10-30 for 18. 02. 2025 10:30)"
         )
         return None
