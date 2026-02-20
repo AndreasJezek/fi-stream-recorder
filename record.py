@@ -70,7 +70,7 @@ def get_start_time():
 
 def get_arguments():
     result: dict[str, str] = dict()
-    result["name"] = input(PROMPTS["NAME"]).strip() or "recording"
+    name: str = input(PROMPTS["NAME"]).strip() or "recording"
 
     while (url := get_url()) is None:
         print("URL required!")
@@ -86,6 +86,7 @@ def get_arguments():
         print("Input start time in valid format, or use default option.")
 
     result["start_time"] = start_time
+    result["name"] = f"{name}-{start_time}"
     return result
 
 
@@ -117,7 +118,7 @@ def main():
     arguments: dict[str, Any] = get_arguments()
 
     print(
-        f"Executing the recorder for {arguments['name']} for {int(arguments['recording_seconds']) / 60} at {arguments['start_time']}"
+        f"Executing the recorder {arguments['name']} for {int(arguments['recording_seconds']) / 60}m at {arguments['start_time']}"
     )
     run_stream_recorder(arguments)
     print(f"💾 The recording is saved in: {MAPPED_VOLUME} directory.")

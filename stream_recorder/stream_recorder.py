@@ -23,11 +23,7 @@ class StreamRecorder:
         self.site_url: str = site_url
         self.recording_length: int = length
         self.start_time: datetime = start_time
-        self.output_name: str = (
-            f"{self.name}-"
-            f"{datetime.strftime((self.start_time.astimezone(ZoneInfo('Europe/Prague'))), '%Y-%m-%d-%H-%M')}"
-            ".mp4"
-        )
+        self.output_name: str = f"{self.name}.mp4"
         self.output_path: str = f"/workspace/{self.output_name}"
 
     def wait_for_start_time(self, sleep_interval: int = 60):
