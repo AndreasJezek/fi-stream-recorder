@@ -45,7 +45,9 @@ class StreamRecorder:
             return
 
         logger.info(f"Current time: {now_prague.strftime('%d/%m/%Y, %H:%M')}.")
-        logger.info(f"Start time: {self.start_time.astimezone(ZoneInfo("Europe/Prague")).strftime('%d/%m/%Y, %H:%M')}.")
+        logger.info(
+            f"Start time: {self.start_time.astimezone(ZoneInfo("Europe/Prague")).strftime('%d/%m/%Y, %H:%M')}."
+        )
         logger.info(f"Waiting for the start time...")
 
         while time_to_sleep - sleep_interval > 0:
@@ -61,6 +63,23 @@ class StreamRecorder:
             self.m3u8_url = route.request.url
         route.continue_()
 
+    def __click_play_button(self, page: Page) -> bool:
+        try:
+            page.click('button[title="Play Video"]')
+            return True
+        except TimeoutError as e:
+            logger.warning("Play Button not found, retrying...")
+            return False
+
+    def __try_play_button(self, page: Page):
+        for _ in range(3):
+            if self.__click_play_button(page):
+                return
+            time.sleep(1)
+        logger.error(
+            "The page probably does not have a play button or the selector does not match."
+        )
+
     def __extract_m3u8(self):
         logger.info("Opening browser...")
         with sync_playwright() as p:
@@ -68,7 +87,7 @@ class StreamRecorder:
             page: Page = browser.new_page()
             page.route("**/*", self.__handle_route)
             page.goto(self.site_url)
-            page.click('button[title="Play Video"]')
+            self.__try_play_button(page)
             logger.info("Waiting for the stream to start...")
             page.wait_for_timeout(5000)
             browser.close()
@@ -83,6 +102,7 @@ class StreamRecorder:
 
         self.__extract_m3u8()
         if not self.m3u8_url:
+            logger.error("No m3u8 extracted. Nothing to record.")
             return
 
         logger.success(f"m3u8 link found. Recording.")
