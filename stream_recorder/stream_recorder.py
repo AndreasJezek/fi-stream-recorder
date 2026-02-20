@@ -45,7 +45,7 @@ class StreamRecorder:
             return
 
         logger.info(f"Current time: {now_prague.strftime('%d/%m/%Y, %H:%M')}.")
-        logger.info(f"Start time: {self.start_time.strftime('%d/%m/%Y, %H:%M')}.")
+        logger.info(f"Start time: {self.start_time.astimezone(ZoneInfo("Europe/Prague")).strftime('%d/%m/%Y, %H:%M')}.")
         logger.info(f"Waiting for the start time...")
 
         while time_to_sleep - sleep_interval > 0:
