@@ -9,3 +9,4 @@ pyee==13.0.1
 python-ffmpeg==2.0.12
 pytokens==0.4.1
 typing_extensions==4.15.0
+requests==2.32.5

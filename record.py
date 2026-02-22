@@ -26,8 +26,8 @@ def get_current_prague_time():
     return datetime.now(ZoneInfo("Europe/Prague")).strftime("%Y-%m-%d-%H-%M")
 
 
-def build_recorder():
-    cmd = ["docker", "pull", DOCKER_IMAGE_NAME]
+def build_recorder(recorder_image: str = DOCKER_IMAGE_NAME):
+    cmd = ["docker", "pull", recorder_image]
 
     subprocess.run(cmd, check=True)
 
@@ -90,13 +90,13 @@ def get_arguments():
     return result
 
 
-def run_stream_recorder(arguments: dict[str, str]):
+def run_recorder(arguments: dict[str, str], output_dir: str = MAPPED_VOLUME):
     cmd = [
         "docker",
         "run",
         "--rm",
         "-v",
-        f"{MAPPED_VOLUME}:/workspace",
+        f"{output_dir}:/workspace",
         DOCKER_IMAGE_NAME,
     ] + [
         arguments["name"],
@@ -120,7 +120,7 @@ def main():
     print(
         f"Executing the recorder {arguments['name']} for {int(arguments['recording_seconds']) / 60}m at {arguments['start_time']}"
     )
-    run_stream_recorder(arguments)
+    run_recorder(arguments)
     print(f"💾 The recording is saved in: {MAPPED_VOLUME} directory.")
 
 
