@@ -3,3 +3,5 @@ __pycache__/
 *.pyo
 *$py.class
 recordings/
+db/
+tmp_recordings/
